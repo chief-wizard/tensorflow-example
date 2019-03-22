@@ -87,3 +87,18 @@
       - name: model
         description: Model output file from TensorFlow
         path: model.pb
+
+- blueprint:
+    name: Example Pipeline
+    nodes:
+      - name: Extract
+        type: execution
+        step: Batch feature extraction
+      - name: Train
+        type: execution
+        step: Train model
+    edges:
+      - [Extract.outputs.*train-images*, Train.inputs.training-set-images]
+      - [Extract.outputs.*train-labels*, Train.inputs.training-set-labels]
+      - [Extract.outputs.*test-images*, Train.inputs.test-set-images]
+      - [Extract.outputs.*test-images*, Train.inputs.test-set-labels]

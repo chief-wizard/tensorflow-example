@@ -98,7 +98,7 @@
         type: execution
         step: Train model
     edges:
-      - [Extract.outputs.*train-images*, Train.inputs.training-set-images]
-      - [Extract.outputs.*train-labels*, Train.inputs.training-set-labels]
-      - [Extract.outputs.*test-images*, Train.inputs.test-set-images]
-      - [Extract.outputs.*test-images*, Train.inputs.test-set-labels]
+      - [Extract.output.*train-images*, Train.input.training-set-images]
+      - [Extract.output.*train-labels*, Train.input.training-set-labels]
+      - [Extract.output.*test-images*, Train.input.test-set-images]
+      - [Extract.output.*test-images*, Train.input.test-set-labels]

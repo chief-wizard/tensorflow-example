@@ -3,17 +3,21 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger:
+pr:
 - master
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    curl -H 'Content-Type: application/json' \
+         -H "Authorization: Token $(VALOHAI_API_TOKEN)" \
+         -X POST \
+         -d '{"project": "tensorflow-azure-pipelines", \
+              "commit": "$(GIT_SHA)", \
+              "step": "Preprocess dataset (MNIST)" }'
+         https://app.valohai.com/api/v0/executions/
+  displayName: 'Trigger a Valohai execution'
+  env:
+    GIT_SHA: $(Build.SourceVersion)

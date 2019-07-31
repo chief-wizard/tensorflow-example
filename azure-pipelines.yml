@@ -3,21 +3,14 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-pr:
-- master
-
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: |
-    curl -H 'Content-Type: application/json' \
-         -H "Authorization: Token $(VALOHAI_API_TOKEN)" \
-         -X POST \
-         -d '{"project": "tensorflow-azure-pipelines", \
-              "commit": "$(GIT_SHA)", \
-              "step": "Preprocess dataset (MNIST)" }'
-         https://app.valohai.com/api/v0/executions/
-  displayName: 'Trigger a Valohai execution'
+
+- bash: scripts/orchestrate_valohai.sh
+  displayName: 'Orchestrate a Valohai workflow'
   env:
     GIT_SHA: $(Build.SourceVersion)
+    VALOHAI_PROJECT_ID: $(VALOHAI_PROJECT_ID)
+    VALOHAI_API_TOKEN: $(VALOHAI_API_TOKEN)
